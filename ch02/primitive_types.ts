@@ -199,3 +199,95 @@ const value : number = 10;
 const message : string = value > 10 ?
     "value is larger than 10" : "value is 10 or less";
 console.log(message);
+
+//
+// optional chaining : testing for an object property before accessing it
+//
+
+let objectA = {
+    nestedProperty: {
+        name: "nestedPropertyName"
+    }
+}
+
+// function printNestedObject(obj) {
+//     console.log("obj.nestedProperty.name = "
+//             + obj.nestedProperty.name);
+// }
+
+function printNestedObject(obj: any) {
+    if (obj != undefined
+        && obj.nestedProperty != undefined
+        && obj.nestedProperty.name) {
+            console.log(`name = ${obj.nestedProperty.name}`)
+    } else {
+        console.log(`name not found or undefined`);
+    }
+}
+
+printNestedObject(null);
+printNestedObject(undefined);
+printNestedObject({
+    aPropetry: "another property"
+});
+printNestedObject({
+    nestedProperty: {
+        name: "nestedPropertyName"
+    }
+});
+
+// 
+// Optional chaining : using the syntax
+//
+
+function printNestOptionalChain(obj: any) {
+    if(obj?.nestedProperty?.name) {
+        console.log(`name = ${obj.nestedProperty.name}`)
+    } else {
+        console.log(`name not found or undefined`);
+    }
+}
+
+printNestOptionalChain(undefined);
+printNestOptionalChain({
+    aProperty: "another property"
+});
+printNestOptionalChain({
+    nestedProperty: {
+        name: null
+    }
+});
+printNestOptionalChain({
+    nestedProperty: {
+        name: "nestedPropertyName"
+    }
+});
+
+
+//
+// Nullish coalescing
+//
+
+function nullishCheck(a: number | undefined | null) {
+    console.log(`a : ${a ?? `undefined or null`}`);
+}
+
+nullishCheck(1);
+nullishCheck(null);
+nullishCheck(undefined);
+
+//
+// null operands
+//
+
+function testNullOperands(a: number, b: number | null | undefined) {
+    let addResult = a + (b ?? 0);
+}
+
+//
+// define assignment
+//
+
+// console.log(`lvalue = ${lvalue}`);
+var lvalue = 2;
+
