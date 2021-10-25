@@ -291,3 +291,43 @@ function testNullOperands(a: number, b: number | null | undefined) {
 // console.log(`lvalue = ${lvalue}`);
 var lvalue = 2;
 
+let globalString!: string;
+
+setGlobalString("this string is set");
+
+console.log(`globalString = ${globalString}`);
+// console.log(`globalString = ${globalString!}`);
+
+
+function setGlobalString(value: string) {
+    globalString = value;
+}
+
+// 
+// Object
+//
+
+let structuredObject: object = {
+    name: "myObject",
+    properties: {
+        id: 1,
+        type: "AnObject"
+    }
+}
+
+function printObjectType(a: object) {
+    console.log(`a: ${JSON.stringify(a)}`);
+}
+
+printObjectType(structuredObject);
+
+// printObjectType("this is a string");
+
+
+// 
+// unknown
+//
+
+let a: any = "test";
+let aNumber: number = 2;
+aNumber = a;
