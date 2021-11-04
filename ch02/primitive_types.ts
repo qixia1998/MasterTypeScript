@@ -323,7 +323,6 @@ printObjectType(structuredObject);
 
 // printObjectType("this is a string");
 
-
 // 
 // unknown
 //
@@ -331,3 +330,168 @@ printObjectType(structuredObject);
 let a: any = "test";
 let aNumber: number = 2;
 aNumber = a;
+
+let u: unknown = "an unknown";
+u = 1;
+let aNumber2 : number;
+// aNumber2 = u;
+aNumber2 = <number>u;
+
+console.log(`aString : ${a * 2}`);
+
+//
+// never
+// 
+
+function alwaysThrows(): never {
+    throw new Error("this will always throw");
+    // return -1
+}
+
+//
+// never in practice
+//
+
+enum AnEnum {
+    FIRST,
+    SECOND
+}
+
+function getEnumValue(enumValue: AnEnum): string {
+    switch (enumValue){
+        case AnEnum.FIRST: return "First Case";
+        case AnEnum.SECOND: return "Second Case";
+    }
+    let returnValue: never = enumValue;
+    return returnValue;
+}
+
+
+
+//
+// Object spread
+//
+
+let firstObj: object = { id: 1, name: "firstObj"};
+let secondObj: object = {...firstObj};
+
+console.log(`secondObj : ${JSON.stringify(secondObj)}`);
+
+let nameObj: object = { name: "nameObj name" };
+let idObj: object = {id: 1 };
+
+let obj3: object = {...nameObj, ...idObj};
+
+console.log(`obj3 = ${JSON.stringify(obj3)}`);
+
+//
+// spread precedence
+//
+
+let objPrec1: object = {id: 1, name: "obj1 name"};
+let objPrec2: object = {id: 1001, desc: "obj2 description"};
+
+let objPrec3 = {...objPrec1, ...objPrec2};
+console.log(`objPrec3: ${JSON.stringify(objPrec3, null, 4)}`);
+
+// 
+// spread with arrays
+//
+
+let firstArray = [1, 2, 3];
+let secondArray = [3, 4, 5];
+let thirdArray = [...firstArray, ...secondArray];
+
+console.log(`third array = ${thirdArray}`);
+
+let objArray1 = [
+    { id: 1, name: "first element"},
+]
+
+let objArray2 = [
+    { id: 2, name: "second element"},
+]
+
+let objArray3 = [
+    ...objArray1,
+    { id: 3, name: "third element"},
+    ...objArray2
+]
+
+console.log(`objArray3 = ${JSON.stringify(objArray3, null, 4)}`);
+
+//
+// tuples
+// 
+
+let tuple1: [string, boolean];
+tuple1 = ["test", true];
+
+// tuple1 = ["test"];
+
+// 
+// tuple destructuring
+//
+
+console.log(`tuple1[0] : ${tuple1[0]}`);
+console.log(`tuple1[1] : ${tuple1[1]}`);
+// console.log(`tuple1[2] : ${tuple1[2]}`);
+
+let [tupleString, tupleBoolean] = tuple1;
+console.log(`tupleString = ${tupleString}`);
+console.log(`tupleBoolean = ${tupleBoolean}`);
+
+//
+// optional tuple elements
+//
+
+let tupleOptional: [string, boolean?];
+tupleOptional = ["test", true];
+tupleOptional = ["test"];
+
+console.log(`tupleOptional[0] : ${tupleOptional[0]}`);
+console.log(`tupleOptional[1] : ${tupleOptional[1]}`);
+
+//
+// tuples and spread sytanx
+//
+
+let tupleRest: [number, ...string[]];
+tupleRest = [1];
+tupleRest = [1, "string1"];
+tupleRest = [1, "string1", "string2"];
+
+//
+// object destructuring
+//
+
+let complexObject = {
+    aNum: 1,
+    bStr: "name",
+    cBool: true
+}
+
+let { aNum, bStr, cBool} = complexObject;
+console.log(`aNum : ${aNum}`);
+console.log(`bStr : ${bStr}`);
+console.log(`cBool : ${cBool}`);
+
+let { aNum: objId, bStr: objName, cBool: isValid } = complexObject;
+console.log(`objId : ${objId}`);
+console.log(`objName : ${objName}`);
+console.log(`isValid : ${isValid}`);
+
+//
+// functions
+//
+
+//
+// optional parameters
+//
+
+function concatValues(a: string, b?: string) {
+    console.log(`a + b = ${a + b}`);
+}
+
+concatValues("first", "second");
+concatValues("third");
