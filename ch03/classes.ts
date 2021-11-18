@@ -191,3 +191,31 @@ namespace FirstNameSpace {
     export class NameSpaceClass { }
     class NotExported{ }
 }
+
+let nameSpaceClass = new FirstNameSpace.NameSpaceClass();
+// let notExported = new FirstNameSpace.NotExported();
+
+
+//
+// interfaces extending classes
+//
+
+
+class BaseInterfaceClass {
+    id: number = 0;
+    print() {
+        console.log(`this.id = ${this.id}`);
+    }
+}
+
+interface IBaseInterfaceClassExt
+    extends BaseInterfaceClass {
+    setId(_id: number): void;
+}
+
+class ImplementsExt extends BaseInterfaceClass
+    implements IBaseInterfaceClassExt {
+    setId(id: number): void {
+        this.id = id;
+    }
+}
