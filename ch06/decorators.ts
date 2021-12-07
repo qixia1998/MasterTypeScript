@@ -158,26 +158,26 @@ class ClassWithMethodDec {
 function auditLogDec(target: any,
     methodName: string,
     descriptor?: PropertyDescriptor) {
-       
+
     let originalFunction = target[methodName];
-    
+
     let auditFunction = function (this: any) {
         console.log(`1. auditLogDec : overide of `
             + ` ${methodName} called`);
-        
         for (let i = 0; i < arguments.length; i++) {
-            console.log(`2. org : ${i} = ${arguments[i]}`);
+            console.log(`2. arg : ${i} = ${arguments[i]}`);
         }
         originalFunction.apply(this, arguments);
     }
+
     target[methodName] = auditFunction;
-    return target;    
+    return target;
 }
 
 class ClassWithAuditDec {
     @auditLogDec
     print(arg1: string, arg2: string) {
-        console.log(`3. ClassWIthMethodDec.print`
+        console.log(`3. ClassWithMethodDec.print`
             + `(${arg1}, ${arg2}) called.`);
     }
 }
@@ -192,14 +192,65 @@ auditClass.print("test1", "test2");
 function parameterDec(target: any,
     methodName: string,
     parameterIndex: number) {
-    
+
     console.log(`target: ${target}`);
-    console.log(`methodName: ${methodName}`);
+    console.log(`methodName : ${methodName}`);
     console.log(`parameterIndex : ${parameterIndex}`);
 
 }
 
 class ClassWithParamDec {
     print(@parameterDec value: string) {
+    }
+}
+
+// 
+// decorator metadata
+//
+
+function metadataParameterDec(
+    target: any,
+    methodName: string,
+    parameterIndex: number
+) { }
+
+class ClassWithMetadata {
+    print(
+        @metadataParameterDec id: number, name: string
+    ) { }
+}
+
+//
+// using decorator metadata
+//
+
+import 'reflect-metadata';
+
+function reflectParameterDec(target: any,
+    methodName: string,
+    parameterIndex: number) {
+
+    let designType = Reflect.getMetadata(
+        "design:type", target, methodName);
+    console.log(`design type: ${designType.name}`)
+
+    let designParamTypes = Reflect.getMetadata(
+        "design:paramtypes", target, methodName);
+    for (let paramType of designParamTypes) {
+        console.log(`param type : ${paramType.name}`);
+    }
+
+    let designReturnType = Reflect.getMetadata(
+        "design:returntype", target, methodName);
+    console.log(`return types : ${designReturnType.name}`);
+}
+
+
+class ClassWithReflectMetaData {
+    print(
+        @reflectParameterDec
+        id: number,
+        name: string): number {
+        return 1000;
     }
 }
